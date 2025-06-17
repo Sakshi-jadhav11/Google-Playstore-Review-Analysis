@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Playstore Review Analytics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .plot-container {
+            border: 2px solid #555;
+            margin: 10px;
+            padding: 5px;
+            width: 600px;
+            height: 430px;
+            position: relative;
+            background-color: #222;
+        }
+        .insights {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+        }
+        .note {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #aaa;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const now = new Date();
+            const utcOffset = now.getTimezoneOffset() * 60000;
+            const istOffset = 5.5 * 60 * 60000;
+            const istTime = new Date(now.getTime() + istOffset + utcOffset);
+            const hour = istTime.getHours();
+            const minutes = istTime.getMinutes();
+
+            const charts = document.querySelectorAll(".plot-container");
+            charts.forEach(chart => {
+                const start = parseInt(chart.getAttribute("data-start"));
+                const end = parseInt(chart.getAttribute("data-end"));
+                const chartId = chart.id;
+
+                if (hour >= start && hour < end) {
+                    chart.style.display = "block";
+                } else {
+                    if (start === 0 && end === 24) {
+                        chart.style.display = "block";
+                        return;
+                    } else {
+                        let message = `<div class='note'>Chart ${chartId.split('-')[1]} - Chart not shown — current time is ${hour}:${minutes.toString().padStart(2, '0')} IST. Visible only between ${start}:00 and ${end}:00 IST.</div>`;
+                        chart.insertAdjacentHTML('afterend', message);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 style="text-align:center;">Google Playstore Review Analysis</h1>
+    <div class="container">
+        
+        <div class="plot-container" 
+             id="chart-1" 
+             data-start="0" 
+             data-end="24" 
+             style="display: none;">
+            <iframe src="Sentiment_bar Graph1.html" width="600" height="400" frameborder="0"></iframe>
+            <a class="insights" href="Sentiment_bar Graph1.html" target="_blank">Click to expand</a>
+        </div>
+        
+        <div class="plot-container" 
+             id="chart-2" 
+             data-start="18" 
+             data-end="20" 
+             style="display: none;">
+            <iframe src="Choropleth_Map2.html" width="600" height="400" frameborder="0"></iframe>
+            <a class="insights" href="Choropleth_Map2.html" target="_blank">Click to expand</a>
+        </div>
+        
+        <div class="plot-container" 
+             id="chart-3" 
+             data-start="13" 
+             data-end="14" 
+             style="display: none;">
+            <iframe src="dual_axis_category_chart3.html" width="600" height="400" frameborder="0"></iframe>
+            <a class="insights" href="dual_axis_category_chart3.html" target="_blank">Click to expand</a>
+        </div>
+        
+        <div class="plot-container" 
+             id="chart-4" 
+             data-start="17" 
+             data-end="19" 
+             style="display: none;">
+            <iframe src="Bubble_Chart4_Adjusted.html" width="600" height="400" frameborder="0"></iframe>
+            <a class="insights" href="Bubble_Chart4_Adjusted.html" target="_blank">Click to expand</a>
+        </div>
+        
+        <div class="plot-container" 
+             id="chart-5" 
+             data-start="11" 
+             data-end="14" 
+             style="display: none;">
+            <iframe src="Install_Trend5.html" width="600" height="400" frameborder="0"></iframe>
+            <a class="insights" href="Install_Trend5.html" target="_blank">Click to expand</a>
+        </div>
+        
+    </div>
+</body>
+</html>
